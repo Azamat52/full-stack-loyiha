@@ -12,6 +12,7 @@ module.exports = class UserDto {
 		this.username = model.username
 		this.password = model.password
 		this.id = model._id
+		this.isActivated = model.isActivated
 		this.createdAt = model.createdAt
 		this.updatedAt = model.updatedAt
 	}

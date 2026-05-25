@@ -78,6 +78,10 @@ class AuthService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
         return { user: userDto, ...tokens }
     }
+    async getUser() {
+        const allUser = await UserModel.find()
+        return allUser
+    }
 }
 
 module.exports = new AuthService()
