@@ -1,6 +1,7 @@
 const { v4: id } = require("uuid")
 const path = require("path")
 const fs = require("fs")
+const BaseError = require("../errors/base-error")
 
 class FileService {
 	async save(file) {
@@ -15,10 +16,9 @@ class FileService {
 			file.mv(filePath)
 			return fileName
 		} catch (error) {
-			throw new Error("Error saving files:", error);
+			throw BaseError.BadRequest("Error saving files");
 		}
 	}
-	async delete() {}
 }
 
 module.exports = new FileService()

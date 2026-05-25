@@ -3,6 +3,7 @@ const UserModel = require('../models/user-model')
 const bcrypt = require("bcrypt");
 const tokenService = require('./token-service');
 const MailService = require("./email-service");
+const BaseError = require('../errors/base-error');
 
 class AuthService {
     async registar(email, password, username) {
@@ -10,10 +11,10 @@ class AuthService {
         const existUserUsername = await UserModel.findOne({ username })
         // check email and username
         if (existUserEmail) {
-            throw new Error(`Error: Email(${email}) is already taken`);
+            throw BaseError.BadRequest(`Email(${email}) is already taken`);
         }
         if (existUserUsername) {
-            throw new Error(`Error: Username(${username}) is already taken`);
+            throw BaseError.BadRequest(`Username(${username}) is already taken`);
         }
         // hasing password
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -32,7 +33,7 @@ class AuthService {
     async activation(userId) {
         const user = await UserModel.findById(userId)
         if (!user) {
-            console.log("User is not defined, please check your email");
+            throw BaseError.BadRequest("UserId is not defined, please check your email");
         }
         user.isActivted = true
         return user.save()
@@ -40,11 +41,11 @@ class AuthService {
     async login(email, password) {
         const user = await UserModel.findOne({ email })
         if (!user) {
-            throw new Error("User is not defined, please registar again");
+            throw BaseError.BadRequest("User is not defined, please registar again");
         }
         const unHashedPassword = await bcrypt.compare(password, user.password)
         if (!unHashedPassword) {
-            throw new Error("Password is incorrect, try again");
+            throw BaseError.BadRequest("Password is incorrect, try again");
         }
         // sort user info
         const userDto = new UserDto(user)
@@ -60,13 +61,13 @@ class AuthService {
     }
     async refresh(refreshToken) {
         if (!refreshToken) {
-            throw new Error("Bad autharithation");
+            throw BaseError.BadRequest("Bad autharithation");
         }
         const payload = await tokenService.validateRefreshToken(refreshToken)
         const DB_refreshToken = await tokenService.findToken(refreshToken)
         // check
         if (!payload || !DB_refreshToken) {
-            throw new Error("Bad autharithation!!!!");
+            throw BaseError.BadRequest("Bad autharithation!!!!");
         }
         const user = await UserModel.findById(payload.userDto.id)
         // sort user info

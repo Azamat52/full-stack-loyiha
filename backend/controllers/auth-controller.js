@@ -1,4 +1,6 @@
+const BaseError = require('../errors/base-error')
 const AuthService = require("../services/auth-service")
+const { validationResult } = require("express-validator")
 
 class AuthController {
     async registar(req, res, next) {
@@ -8,7 +10,7 @@ class AuthController {
             res.cookie("refreshToken", UserDto.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.status(201).json(UserDto)
         } catch (error) {
-            res.status(500).json(error)
+            next(error);
         }
     }
     async activation(req, res, next) {
@@ -16,7 +18,7 @@ class AuthController {
             const UserDto = await AuthService.activation(req.params.id)
             return res.redirect("https://github.com")
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     async login(req, res, next) {
@@ -26,7 +28,7 @@ class AuthController {
             res.cookie("refreshToken", USER.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.status(201).json(USER)
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     async logout(req, res, next) {
@@ -36,7 +38,7 @@ class AuthController {
             res.clearCookie("refreshToken")
             res.status(200).json(token)
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     async refresh(req, res, next) {
@@ -46,7 +48,7 @@ class AuthController {
             res.cookie("refreshToken", user.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.status(200).json(user)
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 }
