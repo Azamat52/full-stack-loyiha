@@ -4,14 +4,15 @@ class PostController {
     async getAllPosts(req, res, next) {
         try {
             const allPosts = await PostService.get()
-            res.status(201).json({ posts: allPosts })
+            const checkedPost = allPosts.length === 0 ? { message: "There is no any posts available" } : allPosts
+            res.status(201).json({ posts: checkedPost })
         } catch (error) {
             next(error)
         }
     }
     async createPost(req, res, next) {
         try {
-            const newPost = await PostService.create(req.body, req.files.picture)
+            const newPost = await PostService.create(req.body, req.files.picture, req.user.id)
             res.status(201).json({ post: newPost })
         } catch (error) {
             next(error)
@@ -37,6 +38,14 @@ class PostController {
         try {
             const takedPostById = await PostService.getById(req.params.id)
             res.status(200).json({ post: takedPostById })
+        } catch (error) {
+            next(error)
+        }
+    }
+    async clearAll(req, res, next) {
+        try {
+            const clearedAllPosts = await PostService.clearAll()
+            res.status(200).json({ posts: clearedAllPosts, message: "All posts are cleared" })
         } catch (error) {
             next(error)
         }

@@ -10,7 +10,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParse({}))
-app.use(fileUpload({}))
+app.use(fileUpload())
 app.use(express.static("static"))
 // Routes
 app.use("/api/post", require("./routes/post-route"))

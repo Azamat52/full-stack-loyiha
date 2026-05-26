@@ -13,7 +13,7 @@ exports.registerValidator = [
 		.withMessage("Email is required")
 		.bail()
 		.isEmail()
-		.withMessage("Email is incorrect"),
+		.withMessage("Email is invalid"),
 
 	body("password")
 		.notEmpty()

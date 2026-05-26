@@ -18,8 +18,4 @@ exports.postCreateValidator = [
 		.bail()
 		.isLength({ min: 16 })
 		.withMessage("Description must be 16 characters at least"),
-
-	body("picture")
-		.notEmpty()
-		.withMessage("Picture is required")
 ]
