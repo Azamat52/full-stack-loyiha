@@ -11,6 +11,12 @@ class PostService {
         return allPosts
     }
     async create(post, picture, authorId) {
+        if (!picture) {
+            throw BaseError.BadRequest("Picture is required")
+        }
+        if (!authorId) {
+            throw BaseError.BadRequest("AuthorId is not found creating post")
+        }
         const fileName = await fileService.save(picture)
         const author = await UserModel.findById(authorId)
         const authorDto = new UserDto(author)

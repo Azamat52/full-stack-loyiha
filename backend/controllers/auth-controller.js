@@ -54,7 +54,16 @@ class AuthController {
     async getUser(req, res, next) {
         try {
             const user = await AuthService.getUser()
-            return res.status(200).json({ users: user })
+            const checkedUser = user.length === 0 ? { message: "There is no any users available" } : user
+            return res.status(200).json({ users: checkedUser })
+        } catch (error) {
+            next(error)
+        }
+    }
+    async deleteAll(req, res, next) {
+        try {
+            const user = await AuthService.deleteAll()
+            return res.status(200).json({ message: "Users successfully deleted" })
         } catch (error) {
             next(error)
         }

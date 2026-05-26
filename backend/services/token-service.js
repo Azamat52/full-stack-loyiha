@@ -9,7 +9,7 @@ class TokenService {
 	}
 	async saveToken(userId, refreshToken) {
 		const existToken = await tokenModel.findOne({ user: userId })
-
+		console.log(existToken);
 		if (existToken) {
 			existToken.refreshToken = refreshToken
 			return existToken.save()

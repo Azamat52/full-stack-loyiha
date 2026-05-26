@@ -1,12 +1,14 @@
 const BaseError = require('../errors/base-error')
+const tokenModel = require('../models/token-model')
 const tokenService = require('../services/token-service')
 
-module.exports = function (req, res, next) {
+module.exports = async function (req, res, next) {
 	try {
 		const auth = req.headers.authorization
 		if (!auth) {
 			return next(BaseError.UnAutharized())
 		}
+
 		const accessToken = auth.split(" ")[1]
 		if (!accessToken) {
 			return next(BaseError.UnAutharized())
@@ -16,10 +18,15 @@ module.exports = function (req, res, next) {
 		if (!userDto) {
 			return next(BaseError.UnAutharized())
 		}
+		
+		const checkedUserDto = await tokenModel.findOne({ user: userDto.id }).populate("user")
+		if (!checkedUserDto) {
+			return next(BaseError.UnAutharized())
+		}
 
-		req.user = userDto
+		req.user = checkedUserDto.user
 		next()
 	} catch (error) {
-		next(BaseError.UnAutharized())
+		return next(BaseError.UnAutharized())
 	}
 }

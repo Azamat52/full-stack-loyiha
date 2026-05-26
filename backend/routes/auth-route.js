@@ -11,5 +11,6 @@ router.post("/login", loginValidator, validate, AuthController.login)
 router.post("/logout", AuthController.logout)
 router.get("/auto_generate", AuthController.refresh)
 router.get("/getUser", authMiddlewares, AuthController.getUser)
+router.delete("/deleteAll", AuthController.deleteAll)
 
 module.exports = router

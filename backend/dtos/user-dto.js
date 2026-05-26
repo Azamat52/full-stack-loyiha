@@ -1,9 +1,9 @@
 module.exports = class UserDto {
-	email
-	isActivated
 	id
+	email
 	password
 	username
+	isActivated
 	createdAt
 	updatedAt
 
