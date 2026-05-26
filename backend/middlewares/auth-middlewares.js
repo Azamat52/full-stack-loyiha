@@ -23,6 +23,9 @@ module.exports = async function (req, res, next) {
 		if (!checkedUserDto) {
 			return next(BaseError.UnAutharized())
 		}
+		if(!checkedUserDto.user.isActivated) {
+			return next(BaseError.BadRequest("You should avtivate your account to create new post"))
+		}
 
 		req.user = checkedUserDto.user
 		next()

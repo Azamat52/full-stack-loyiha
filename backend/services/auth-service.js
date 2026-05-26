@@ -27,14 +27,16 @@ class AuthService {
         await MailService.activateMail(email, `${process.env.ACTIVATION_LINK}/api/auth/activation/${userDto.id}`)
         // jwt TOKENS 
         const tokens = tokenService.generateToken({ userDto })
-        return { user: userDto, ...tokens }
+        const info = { userInfo: userDto, tokens }
+        return { user: info }
     }
     async activation(userId) {
+        console.log("your acc is activated");
         const user = await UserModel.findById(userId)
         if (!user) {
-            throw BaseError.BadRequest("UserId is not defined, please check your email");
+            throw BaseError.BadRequest("UserId is not defined , please check your email");
         }
-        user.isActivted = true
+        user.isActivated = true
         return user.save()
     }
     async login(email, password) {
@@ -78,7 +80,7 @@ class AuthService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
         return { user: userDto, ...tokens }
     }
-    async getUser() {
+    async getUsers() {
         const allUser = await UserModel.find()
         return allUser
     }

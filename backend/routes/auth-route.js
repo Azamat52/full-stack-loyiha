@@ -9,8 +9,8 @@ router.post("/registar", registerValidator, validate, AuthController.registar)
 router.get("/activation/:id", AuthController.activation)
 router.post("/login", loginValidator, validate, AuthController.login)
 router.post("/logout", AuthController.logout)
-router.get("/auto_generate", AuthController.refresh)
-router.get("/getUser", authMiddlewares, AuthController.getUser)
+router.get("/refresh", AuthController.refresh)
+router.get("/getUsers", AuthController.getUsers)
 router.delete("/deleteAll", AuthController.deleteAll)
 
 module.exports = router

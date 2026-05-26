@@ -16,6 +16,6 @@ exports.postCreateValidator = [
 		.notEmpty()
 		.withMessage("Description is required")
 		.bail()
-		.isLength({ min: 16 })
-		.withMessage("Description must be 16 characters at least"),
+		.isLength({ min: 8 })
+		.withMessage("Description must be 8 characters at least"),
 ]

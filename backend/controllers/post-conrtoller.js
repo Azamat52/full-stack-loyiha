@@ -13,7 +13,7 @@ class PostController {
     async createPost(req, res, next) {
         try {
             const newPost = await PostService.create(req.body, req.files.picture, req.user.id)
-            res.status(201).json({ post: newPost })
+            res.status(201).json({ createdPost: newPost })
         } catch (error) {
             next(error)
         }
@@ -21,7 +21,7 @@ class PostController {
     async deletePost(req, res, next) {
         try {
             const deletedPost = await PostService.delete(req.params.id)
-            res.status(200).json({ post: deletedPost })
+            res.status(200).json({ deletedPost: deletedPost })
         } catch (error) {
             next(error)
         }
@@ -29,7 +29,7 @@ class PostController {
     async editPost(req, res, next) {
         try {
             const editedPost = await PostService.edit(req.params.id, req.body)
-            res.status(200).json({ post: editedPost })
+            res.status(200).json({ editedPost: editedPost })
         } catch (error) {
             next(error)
         }
@@ -37,7 +37,7 @@ class PostController {
     async getPostById(req, res, next) {
         try {
             const takedPostById = await PostService.getById(req.params.id)
-            res.status(200).json({ post: takedPostById })
+            res.status(200).json({ takenPost: takedPostById })
         } catch (error) {
             next(error)
         }

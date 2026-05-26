@@ -19,8 +19,8 @@ exports.registerValidator = [
 		.notEmpty()
 		.withMessage("Password is required")
 		.bail()
-		.isLength({ min: 4, max: 16 })
-		.withMessage("Password must be 4-16 characters"),
+		.isLength({ min: 8 })
+		.withMessage("Password must be 8 characters at least"),
 
 	// body("confirmPassword")
 	// 	.custom((value, { req }) => {
@@ -43,6 +43,6 @@ exports.loginValidator = [
 		.notEmpty()
 		.withMessage("Password is required")
 		.bail()
-		.isLength({ min: 8, max: 25 })
-		.withMessage("Password must be 8-25 characters"),
+		.isLength({ min: 8 })
+		.withMessage("Password must be 8 characters at least"),
 ]

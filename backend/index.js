@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000
 const bootstrap = async () => {
     try {
         await mongoose.connect(process.env.DB_KEY)
-        console.log("MongoDB is working on...")
+        console.log("✅ MongoDB is working on...")
 
         app.listen(PORT, "0.0.0.0", () => {
             console.log(`Your server is running on: http://localhost:${PORT}`)
