@@ -1,0 +1,25 @@
+.custom-modal {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100vh;
+  background: #0f172a;
+  border-left: 1px solid #1e293b;
+  padding: 20px;
+  transition: all 0.4s ease;
+  z-index: 999;
+}
+
+.custom-modal.open {
+  right: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 999;
+}
