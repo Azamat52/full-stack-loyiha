@@ -7,8 +7,15 @@ const UserDto = require('../dtos/user-dto')
 
 class PostService {
     async get() {
-        const allPosts = await postModel.find()
-        return allPosts
+	const allPosts = await postModel.find().populate("author")
+
+	const formattedPosts = allPosts.map(post => {
+		const postDto = new PostDto(post)
+		postDto.author = new UserDto(post.author)
+		return postDto
+	})
+    
+	return formattedPosts
     }
     async create(post, picture, authorId) {
         if (!picture) {
