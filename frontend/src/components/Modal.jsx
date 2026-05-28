@@ -1,19 +1,42 @@
 import { useOpenModal } from '../hooks/useOpenModal'
 
-function Modal({ children }) {
+function Modal({ children, sub, body }) {
   const { isOpen, onClose } = useOpenModal()
 
   return (
     <div
-      className={isOpen ? "overlay" : ""}
+      className={`overlay ${isOpen ? "show" : ""}`}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div className={`custom-modal ${isOpen ? "open" : ""}`}>
-        
-        <div className="d-flex justify-content-end">
-          <button onClick={onClose}>X</button>
+
+        {/* Header */}
+        <div className="modal-header-custom">
+
+          <div>
+            <h2 className="modal-title-custom">
+              {sub}
+            </h2>
+
+            <p className="modal-body-custom">
+              {body}
+            </p>
+          </div>
+
+          <button
+            className="close-btn"
+            onClick={onClose}
+          >
+            ✕
+          </button>
+
         </div>
-        {children}
+
+        {/* Content */}
+        <div className="modal-content-custom">
+          {children}
+        </div>
+
       </div>
     </div>
   )
