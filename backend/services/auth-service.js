@@ -42,20 +42,19 @@ class AuthService {
     async login(email, password) {
         const user = await UserModel.findOne({ email })
         if (!user) {
-            throw BaseError.BadRequest("User is not defined, please registar again");
+            throw BaseError.BadRequest("Email is incorrect, please try again");
         }
         const unHashedPassword = await bcrypt.compare(password, user.password)
         if (!unHashedPassword) {
             throw BaseError.BadRequest("Password is incorrect, try again");
         }
         // sort user info
-        console.log();
         const userDto = new UserDto(user)
         // jwt TOKENS 
         const tokens = tokenService.generateToken({ userDto })
         // saveToken
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
-        return { user: userDto, ...tokens }
+        return { userDto, ...tokens }
     }
     async logout(refreshToken) {
         const removedToken = await tokenService.removeToken(refreshToken)
@@ -78,7 +77,7 @@ class AuthService {
         const tokens = tokenService.generateToken({ userDto })
         // saveToken
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
-        return { user: userDto, ...tokens }
+        return { userDto, ...tokens }
     }
     async getUsers() {
         const allUser = await UserModel.find()

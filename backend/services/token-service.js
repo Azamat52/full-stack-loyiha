@@ -3,9 +3,9 @@ const tokenModel = require("../models/token-model")
 
 class TokenService {
 	generateToken(payload) {
-		const accsessToken = jwt.sign(payload, process.env.JWT_ACCSESS_KEY, { expiresIn: "10m" })
+		const accessToken = jwt.sign(payload, process.env.JWT_ACCSESS_KEY, { expiresIn: "10m" })
 		const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_KEY, { expiresIn: "30d" })
-		return { accsessToken, refreshToken }
+		return { accessToken, refreshToken }
 	}
 	async saveToken(userId, refreshToken) {
 		const existToken = await tokenModel.findOne({ user: userId })

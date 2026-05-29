@@ -21,7 +21,7 @@ export const postSlice = createSlice({
 			state.isLoading = false
 			state.errors = action.payload
 			console.log(state.errors);
-		}
+		},
 	}
 })
 

@@ -7,7 +7,7 @@ class AuthController {
         try {
             const { username, email, password } = req.body
             const { user } = await AuthService.registar(email, password, username)
-                res.cookie("refreshToken", user.tokens.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
+            res.cookie("refreshToken", user.tokens.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.status(201).json(user)
         } catch (error) {
             next(error);
@@ -53,16 +53,16 @@ class AuthController {
     }
     async getUsers(req, res, next) {
         try {
-            const user = await AuthService.getUsers()
-            const checkedUser = user.length === 0 ? { message: "There is no any users available" } : user
-            return res.status(200).json({ users: checkedUser })
+            const users = await AuthService.getUsers()
+            const checkedUsers = user.length === 0 ? { message: "There is no any users available" } : users
+            return res.status(200).json({ users: checkedUsers })
         } catch (error) {
             next(error)
         }
     }
     async deleteAll(req, res, next) {
         try {
-            const user = await AuthService.deleteAll()
+            await AuthService.deleteAll()
             return res.status(200).json({ message: "Users successfully deleted" })
         } catch (error) {
             next(error)

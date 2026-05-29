@@ -1,19 +1,23 @@
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Modal from './Modal'
 import { useOpenModal } from '../hooks/useOpenModal'
 import Input from '../ui/Input'
 import { createPostfail, createPostStart } from "../slices/PostSlice"
 import PostService from "../services/PostService"
 import TextArea from '../ui/TextArea';
+import AuthService from '../services/AuthService';
+import { logout } from '../slices/authSlice';
 
 function Navbar() {
+  const { loggedIn, user, isLoading } = useSelector((state) => state.auth)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [body, setBody] = useState("")
   const { onOpen } = useOpenModal()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const Reset = () => { setTitle(""); setBody(""); setDescription(""); setBody(""); }
   const handleSubmit = async (e) => {
@@ -23,12 +27,22 @@ function Navbar() {
     console.log(newPost);
     try {
       const data = await PostService.create(newPost)
-      console.log(data);
+      Reset()
     } catch (error) {
       dispatch(createPostfail(error.response?.data))
     }
   }
 
+  const LogOut = async () => {
+    try {
+      await AuthService.logout()
+      dispatch(logout())
+      navigate("/auth")
+    } catch (error) {
+      console.log(error.response?.data);
+    }
+  }
+  
   return (
     <div style={{ backgroundColor: "#0f172a" }}>
       <nav
@@ -54,7 +68,6 @@ function Navbar() {
 
             Sammi
           </Link>
-
           {/* Buttons */}
           <div className="d-flex align-items-center gap-3">
             <button
@@ -68,11 +81,24 @@ function Navbar() {
               Create Post
             </button>
 
-            <Link to="/auth">
-              <button className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
-                Login
-              </button>
-            </Link>
+            {loggedIn ? (
+              <div className='d-flex align-items-center gap-4'>
+                <p className='text-white pt-2'>{user.userDto.username}</p>
+                <button className="btn btn-light px-4 py-2 rounded-pill fw-semibold" 
+                  onClick={LogOut}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Wait.." : "Log Out"}
+                </button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <button className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
+                  Get Start
+                </button>
+              </Link>
+            )
+            }
           </div>
         </div>
       </nav>
@@ -91,7 +117,7 @@ function Navbar() {
               style={{
                 backgroundColor: "#020617",
                 border: "1px solid #1e293b",
-              }}> 
+              }}>
               Reset
             </button>
           </div>

@@ -17,17 +17,14 @@ class PostService {
     
 	return formattedPosts
     }
-    async create(post, picture, authorId) {
-        if (!picture) {
-            throw BaseError.BadRequest("Picture is required")
-        }
+    async create(post, authorId) {
         if (!authorId) {
             throw BaseError.BadRequest("AuthorId is not found creating post")
         }
-        const fileName = await fileService.save(picture)
+        // const fileName = await fileService.save(picture)
         const author = await UserModel.findById(authorId)
         const authorDto = new UserDto(author)
-        const createdPost = await postModel.create({ ...post, picture: fileName, author: authorId })
+        const createdPost = await postModel.create({ ...post, author: authorId })
         const createdPostDto = new PostDto(createdPost)
         return { postInfo: createdPostDto, author: authorDto }
     }
@@ -54,7 +51,7 @@ class PostService {
     async getById(id) {
         if (!id) {
             throw BaseError.BadRequest("Id is not found getting post by id")
-        }
+        }   
         const takenPostById = await postModel.findById(id)
         const post = await postModel.findById(id).populate("author")
         const takenPostByIdDto = new PostDto(takenPostById)
