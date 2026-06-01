@@ -6,8 +6,8 @@ class AuthController {
     async registar(req, res, next) {
         try {
             const { username, email, password } = req.body
-            const { user } = await AuthService.registar(email, password, username)
-            res.cookie("refreshToken", user.tokens.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
+            const user = await AuthService.registar(email, password, username)
+            res.cookie("refreshToken", user.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.status(201).json(user)
         } catch (error) {
             next(error);
@@ -16,7 +16,7 @@ class AuthController {
     async activation(req, res, next) {
         try {
             const UserDto = await AuthService.activation(req.params.id)
-            return res.redirect("https://github.com")
+            return res.redirect(process.env.FRONTEND_LINK)
         } catch (error) {
             next(error);
         }
@@ -54,8 +54,7 @@ class AuthController {
     async getUsers(req, res, next) {
         try {
             const users = await AuthService.getUsers()
-            const checkedUsers = user.length === 0 ? { message: "There is no any users available" } : users
-            return res.status(200).json({ users: checkedUsers })
+            return res.status(200).json(users)
         } catch (error) {
             next(error)
         }

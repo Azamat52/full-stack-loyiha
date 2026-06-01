@@ -14,12 +14,13 @@ module.exports = async function (req, res, next) {
 			return next(BaseError.UnAutharized())
 		}
 
-		const { userDto } = tokenService.validateAccessToken(accessToken)
-		if (!userDto) {
+		const payload = tokenService.validateAccessToken(accessToken)
+		if (!payload) {
 			return next(BaseError.UnAutharized())
 		}
-		
-		const checkedUserDto = await tokenModel.findOne({ user: userDto.id }).populate("user")
+		console.log(payload);
+				
+		const checkedUserDto = await tokenModel.findOne({ user: payload.userDto.id }).populate("user")
 		if (!checkedUserDto) {
 			return next(BaseError.UnAutharized())
 		}

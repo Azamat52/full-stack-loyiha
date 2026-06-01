@@ -20,15 +20,14 @@ class AuthService {
         const hashedPassword = await bcrypt.hash(password, 10)
         const newUser = { email, password: hashedPassword, username }
         const user = await UserModel.create(newUser)
-        console.log(user);
+
         // sort user info
         const userDto = new UserDto(user)
         // SMTP 
-        await MailService.activateMail(email, `${process.env.ACTIVATION_LINK}/api/auth/activation/${userDto.id}`)
-        // jwt TOKENS 
-        const tokens = tokenService.generateToken({ userDto })
-        const info = { userInfo: userDto, tokens }
-        return { user: info }
+        await MailService.activateMail(email, `${process.env.BACKEND_LINK}/api/auth/activation/${userDto.id}`)
+        // jwt TOKENS         
+        const tokens = tokenService.generateToken({ userDto })        
+        return { userDto, ...tokens }
     }
     async activation(userId) {
         console.log("your acc is activated");
