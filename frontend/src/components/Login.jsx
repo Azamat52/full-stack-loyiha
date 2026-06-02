@@ -31,7 +31,7 @@ function Login() {
 		if (loggedIn) {
 			navigate("/")
 		}
-	}, [])
+	}, [loggedIn])
 	return (
 		<div
 			className="d-flex justify-content-center fade-page slide-top"

@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Registar from '../components/Registar'
 import Login from '../components/Login'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Auth() {
+	const { loggedIn } = useSelector((state) => state.auth)
+	const navigate = useNavigate()
+	useEffect(() => {
+		if (loggedIn) {
+			navigate("/")
+		}
+	}, [loggedIn])
 	return (
 		<div
 			className='w-100 vh-100 py-5'
 			style={{ background: '#020617' }}
 		>
 			<div className='container'>
-				<div className="d-flex justify-content-center gap-4 mb-5 fade-page slide-top" style={{width: "32%", margin: "0 auto" }}>
+				<div className="d-flex justify-content-center gap-4 mb-5 fade-page slide-top" style={{ width: "32%", margin: "0 auto" }}>
 
 					<NavLink
 						to="/auth/login"

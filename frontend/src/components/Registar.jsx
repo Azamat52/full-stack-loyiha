@@ -6,12 +6,13 @@ import { failRegistar, startRegistar, succedRegistar } from '../slices/authSlice
 import AuthService from '../services/AuthService';
 
 function Registar() {
-	const { isLoading, loggedIn } = useSelector((state) => state.auth)
+	const { isLoading, loggedIn, isRegistar } = useSelector((state) => state.auth)
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+	console.log(isLoading);
 
 	const Reset = () => { setUsername(""); setEmail(""); setPassword("") }
 	const handleSubmit = async (e) => {
@@ -32,7 +33,7 @@ function Registar() {
 		if (loggedIn) {
 			navigate("/")
 		}
-	}, [])
+	}, [loggedIn])
 	return (
 		<div className="d-flex justify-content-center fade-page slide-top">
 
@@ -95,10 +96,10 @@ function Registar() {
 
 					<button
 						type="submit"
-						disabled={isLoading}
+						disabled={isRegistar}
 						className="btn btn-light w-50 py-2 rounded-pill fw-semibold"
 					>
-						{isLoading ? "Loading..." : "Register"}
+						{isRegistar ? "Loading..." : "Register"}
 					</button>
 
 					<button

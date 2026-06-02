@@ -1,37 +1,14 @@
-import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from 'react-router-dom'
-import Modal from './Modal'
-import { useOpenModal } from '../hooks/useOpenModal'
-import Input from '../ui/Input'
-import { createPostfail, createPostStart } from "../slices/PostSlice"
-import PostService from "../services/PostService"
-import TextArea from '../ui/TextArea';
+import { Link, useNavigate } from 'react-router-dom';
+import { useOpenModal } from '../hooks/useOpenModal';
 import AuthService from '../services/AuthService';
 import { logout } from '../slices/authSlice';
 
 function Navbar() {
   const { loggedIn, user, isLoading } = useSelector((state) => state.auth)
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [body, setBody] = useState("")
   const { onOpen } = useOpenModal()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  const Reset = () => { setTitle(""); setBody(""); setDescription(""); setBody(""); }
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    dispatch(createPostStart())
-    const newPost = { title, description, body }
-    console.log(newPost);
-    try {
-      const data = await PostService.create(newPost)
-      Reset()
-    } catch (error) {
-      dispatch(createPostfail(error.response?.data))
-    }
-  }
 
   const LogOut = async () => {
     try {
@@ -42,7 +19,7 @@ function Navbar() {
       console.log(error.response?.data);
     }
   }
-  
+
   return (
     <div style={{ backgroundColor: "#0f172a" }}>
       <nav
@@ -83,8 +60,8 @@ function Navbar() {
 
             {loggedIn ? (
               <div className='d-flex align-items-center gap-4'>
-                <p className='text-white pt-2'>{user.userDto.username}</p>
-                <button className="btn btn-light px-4 py-2 rounded-pill fw-semibold" 
+                <p className='text-white pt-3 text-capitalize user'>{user.userDto.username} <i className="fa-regular fa-user"></i></p>
+                <button className="btn btn-light px-4 py-2 rounded-pill fw-semibold"
                   onClick={LogOut}
                   disabled={isLoading}
                 >
@@ -102,27 +79,6 @@ function Navbar() {
           </div>
         </div>
       </nav>
-      <Modal sub="Create Post" body="Create everything which come to your mind">
-        <form onSubmit={handleSubmit}>
-          <Input label="Title" id="title" value={title} placeholder="Title" setState={setTitle} />
-          <Input label="Description" id="description" value={description} placeholder="Description" setState={setDescription} />
-          <TextArea label="Body" id="body" value={body} setState={setBody} />
-          <div className='d-flex gap-3 w-100'>
-            <button className="btn btn-light w-100 px-4 py-2 rounded-pill fw-semibold">
-              Create
-            </button>
-            <button
-              className="btn text-white w-100 px-4 py-2 rounded-pill fw-semibold"
-              onClick={Reset}
-              style={{
-                backgroundColor: "#020617",
-                border: "1px solid #1e293b",
-              }}>
-              Reset
-            </button>
-          </div>
-        </form>
-      </Modal>
     </div>
   )
 }

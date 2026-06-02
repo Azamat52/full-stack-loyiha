@@ -236,3 +236,70 @@
 }
 
 /* ------- */
+
+.card {
+  transition: 0.3s ease !important;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border: 1px solid #334155 !important;
+  box-shadow:
+    0 0 35px rgba(0,0,0,0.45) !important;
+}
+
+/* BUTTONS */
+
+.custom-btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: 0.3s ease;
+  font-size: 14px;
+}
+
+.custom-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* VIEW */
+
+.view-btn {
+  background: white;
+  color: #020617;
+}
+
+.view-btn:hover {
+  box-shadow:
+    0 0 15px rgba(255,255,255,0.35);
+}
+
+/* EDIT */
+
+.edit-btn {
+  background: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+}
+
+.edit-btn:hover {
+  background: #334155;
+  box-shadow:
+    0 0 15px rgba(148,163,184,0.25);
+}
+
+/* DELETE */
+
+.delete-btn {
+  background: #991b1b;
+  color: white;
+  border: 1px solid #b91c1c;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+  box-shadow:
+    0 0 15px rgba(239,68,68,0.3);
+}
+/* ----- */

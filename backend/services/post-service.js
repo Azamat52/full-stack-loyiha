@@ -8,11 +8,12 @@ const UserDto = require('../dtos/user-dto')
 class PostService {
     async get() {
         const allPosts = await postModel.find().populate("author")
-
         const formattedPosts = allPosts.map(post => {
-            return { ...post, author: new UserDto(allPosts.author) }
+            const postDto = new PostDto(post)
+            const authorDto = new UserDto(post.author)
+            return { ...postDto, author: authorDto}
         })
-
+        console.log(formattedPosts);
         return formattedPosts
     }
     async create(post, authorId) {
@@ -20,8 +21,8 @@ class PostService {
             throw BaseError.BadRequest("AuthorId is not found creating post")
         }
         // const fileName = await fileService.save(picture)
-        const author = await UserModel.findById(authorId)
         const createdPost = await postModel.create({ ...post, author: authorId })
+        const author = await UserModel.findById(authorId)
         const createdPostDto = new PostDto(createdPost)
         return { ...createdPostDto, author: new UserDto(author) }
     }
