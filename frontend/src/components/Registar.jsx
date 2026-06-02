@@ -12,7 +12,6 @@ function Registar() {
 	const [password, setPassword] = useState("")
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	console.log(isLoading);
 
 	const Reset = () => { setUsername(""); setEmail(""); setPassword("") }
 	const handleSubmit = async (e) => {

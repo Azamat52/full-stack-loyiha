@@ -5,7 +5,7 @@ class PostController {
         try {
             const allPosts = await PostService.get()
             const checkedPosts = allPosts.length > 0 ? allPosts : null
-            res.status(201).json(allPosts)
+            res.status(201).json(checkedPosts)
         } catch (error) {
             next(error)
         }

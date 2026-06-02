@@ -3,21 +3,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../components/Modal'
 import PostService from '../services/PostService'
-import { createPostfail, createPostStart, createPostSucced, getPostfail, getPostStart, getPostSucced } from '../slices/postSlice'
+import { createPostfail, createPostStart, createPostSucced, deletePostfail, deletePostStart, deletePostSucced, getPostfail, getPostStart, getPostSucced } from '../slices/postSlice'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
 import { useOpenModal } from '../hooks/useOpenModal'
+import { RotatingLines } from "react-loader-spinner"
 
 function Home() {
 	const { loggedIn } = useSelector((state) => state.auth)
-	const { posts } = useSelector((state) => state.post)
+	const { posts, isLoading } = useSelector((state) => state.post)
 	const [title, setTitle] = useState("")
 	const [description, setDescription] = useState("")
 	const [body, setBody] = useState("")
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { onClose } = useOpenModal()
-
+	
 	const getAllPost = async () => {
 		dispatch(getPostStart())
 		try {
@@ -27,7 +28,7 @@ function Home() {
 			dispatch(getPostfail(error.response?.data))
 		}
 	}
-
+	
 	const Reset = () => { setTitle(""); setBody(""); setDescription("") }
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -43,6 +44,16 @@ function Home() {
 			dispatch(createPostfail(error.response?.data))
 		}
 	}
+	const deletePost = async (id) => {
+		dispatch(deletePostStart())
+		try {
+			await PostService.deleteById(id)
+			dispatch(deletePostSucced())
+			getAllPost()
+		} catch (error) {
+			dispatch(deletePostfail(error.response?.data))
+		}
+	}
 	useEffect(() => {
 		getAllPost()
 	}, [])
@@ -53,13 +64,13 @@ function Home() {
 	}, [loggedIn])
 	return (
 		<div
-			className='w-100 vh-100'
+			className='w-100'
 			style={{ background: '#020617' }}
 		>
 			<div className='container py-4'>
-
-				<div className='row g-4'>
-
+				{isLoading && <RotatingLines color='#fff' height="70" width="70"/>}	
+				<div className='row g-4'> 
+				
 					{posts !== null ? (
 						posts.map((post) => {
 							return (
@@ -180,8 +191,11 @@ function Home() {
 													Edit
 												</button>
 
-												<button className="custom-btn delete-btn flex-fill">
-													Delete
+												<button className="custom-btn delete-btn flex-fill"
+													onClick={() => deletePost(post.id)}
+													disabled={isLoading}
+												>
+													{isLoading ? "Deleting..." : "Delete"}
 												</button>
 
 											</div>
@@ -194,7 +208,7 @@ function Home() {
 							)
 						})
 					) : (
-						<div className='text-white'>
+						<div className='text-gray fs-1 text-center py-5'>
 							There is no post available
 						</div>
 					)}
@@ -204,12 +218,14 @@ function Home() {
 			</div>
 			<Modal sub="Create Post" body="Create everything which come to your mind">
 				<form onSubmit={handleSubmit}>
-					<Input label="Title" id="title" value={title} placeholder="Title" setState={setTitle} />
-					<Input label="Description" id="description" value={description} placeholder="Description" setState={setDescription} />
-					<TextArea label="Body" id="body" value={body} setState={setBody} />
+					<Input label="Title" id="title" value={title} placeholder="Title" setState={setTitle} disabled={isLoading}/>
+					<Input label="Description" id="description" value={description} placeholder="Description" setState={setDescription} disabled={isLoading}/>
+					<TextArea label="Body" id="body" value={body} setState={setBody} disabled={isLoading}/>
 					<div className='d-flex gap-3 w-100'>
-						<button className="btn btn-light w-100 px-4 py-2 rounded-pill fw-semibold">
-							Create
+						<button className="btn btn-light w-100 px-4 py-2 rounded-pill fw-semibold" 
+							disabled={isLoading}
+						>
+							{isLoading ? "Creating..." : "Create"}
 						</button>
 						<button
 							className="btn text-white w-100 px-4 py-2 rounded-pill fw-semibold"

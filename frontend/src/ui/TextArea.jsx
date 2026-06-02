@@ -4,6 +4,7 @@ function TextArea({
   id,
   value,
   label,
+  disabled,
   setState
 }) {
   return (
@@ -11,6 +12,7 @@ function TextArea({
 
       <textarea
         id={id}
+        disabled={disabled}
         value={value}
         placeholder=" "
         className="floating-textarea"

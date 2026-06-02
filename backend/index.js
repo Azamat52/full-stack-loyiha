@@ -37,7 +37,7 @@ const bootstrap = async () => {
         })
 
     } catch (error) {
-        console.log("Error connecting to MongoDB:", error)
+        console.log("Error connecting to MongoDB or running server:", error)
     }
 }
 

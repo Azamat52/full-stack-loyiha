@@ -33,8 +33,20 @@ export const postSlice = createSlice({
 			state.errors = action.payload
 			console.log(state.errors);
 		},
+		deletePostStart: (state, action) => {
+			state.isLoading = true
+		},
+		deletePostSucced: (state, action) => {
+			state.posts = action.payload
+			state.isLoading = false
+		},
+		deletePostfail: (state, action) => {
+			state.isLoading = false
+			state.errors = action.payload
+			console.log(state.errors)
+		}
 	}
 })
 
-export const { getPostStart, getPostSucced, getPostfail, createPostStart, createPostSucced, createPostfail } = postSlice.actions
+export const { getPostStart, getPostSucced, getPostfail, createPostStart, createPostSucced, createPostfail, deletePostStart, deletePostSucced, deletePostfail } = postSlice.actions
 export default postSlice.reducer

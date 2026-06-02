@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 
 function Input({
@@ -7,6 +8,7 @@ function Input({
   placeholder,
   value,
   label,
+  disabled,
   setState
 }) {
   return (
@@ -19,6 +21,7 @@ function Input({
         placeholder=" "
         className="floating-input"
         onChange={(e) => setState(e.target.value)}
+        disabled={disabled}
       />
 
       <label
