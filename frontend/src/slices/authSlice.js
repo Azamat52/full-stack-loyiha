@@ -7,7 +7,7 @@ const initialState = {
 	loggedIn: false,
 	isRegistar: false,
 	registared: false,
-	errors: null
+	AuthError: null
 }
 
 export const authSlice = createSlice({
@@ -23,9 +23,9 @@ export const authSlice = createSlice({
 			state.isRegistar = false
 		},
 		failRegistar: (state, action) => {
-			state.errors = action.payload
+			state.AuthError = action.payload
 			state.isRegistar = false
-			console.log(state.errors);
+			console.log(state.AuthError);
 		},
 		// Login
 		startLogin: (state) => {
@@ -42,19 +42,24 @@ export const authSlice = createSlice({
 			state.isLoading = false
 		},
 		failLogin: (state, action) => {
-			state.errors = action.payload
+			state.AuthError = action.payload
+			console.log("error", state.AuthError);
+			
 			state.isLoading = false
-			console.log(state.errors);
 		},
 		logout: (state) => {
 			state.isLoading = true
 			removeItem("token")
 			state.user = null
 			state.loggedIn = false
+			state.AuthError = null
 			state.isLoading = false
+		},
+		clearError: (state) => {
+			state.AuthError = null
 		}
 	}
 })
 
-export const { startRegistar, succedRegistar, failRegistar, startLogin, succedLogin, failLogin, logout } = authSlice.actions
+export const { startRegistar, succedRegistar, failRegistar, startLogin, succedLogin, failLogin, logout, clearError } = authSlice.actions
 export default authSlice.reducer

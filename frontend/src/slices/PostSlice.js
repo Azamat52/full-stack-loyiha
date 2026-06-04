@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	posts: null,
 	isLoading: false,
-	errors: null
+	PostError: null
 }
 
 export const postSlice = createSlice({
@@ -19,8 +19,8 @@ export const postSlice = createSlice({
 		},
 		getPostfail: (state, action) => {
 			state.isLoading = false
-			state.errors = action.payload
-			console.log(state.errors);
+			state.PostError = action.payload
+			console.log(state.PostError);
 		},
 		createPostStart: (state) => {
 			state.isLoading = true
@@ -30,23 +30,25 @@ export const postSlice = createSlice({
 		},
 		createPostfail: (state, action) => {
 			state.isLoading = false
-			state.errors = action.payload
-			console.log(state.errors);
+			state.PostError = action.payload
+			console.log(state.PostError);
 		},
 		deletePostStart: (state, action) => {
 			state.isLoading = true
 		},
-		deletePostSucced: (state, action) => {
-			state.posts = action.payload
+		deletePostSucced: (state) => {
 			state.isLoading = false
 		},
 		deletePostfail: (state, action) => {
 			state.isLoading = false
-			state.errors = action.payload
-			console.log(state.errors)
+			state.PostError = action.payload
+			console.log(state.PostError)
+		},
+		clearPostError: (state) => {
+			state.PostError = null
 		}
 	}
 })
 
-export const { getPostStart, getPostSucced, getPostfail, createPostStart, createPostSucced, createPostfail, deletePostStart, deletePostSucced, deletePostfail } = postSlice.actions
+export const { getPostStart, getPostSucced, getPostfail, createPostStart, createPostSucced, createPostfail, deletePostStart, deletePostSucced, deletePostfail, clearPostError } = postSlice.actions
 export default postSlice.reducer

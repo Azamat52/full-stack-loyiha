@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from "react-router-dom";
 import Input from '../ui/Input'
 import { useDispatch, useSelector } from 'react-redux';
-import { failLogin, startLogin, succedLogin } from '../slices/authSlice';
+import { clearError, failLogin, startLogin, succedLogin } from '../slices/authSlice';
 import AuthService from '../services/AuthService';
+import ValidationErrors from './ValidationErrors';
 
 function Login() {
 	const { isLoading, loggedIn } = useSelector((state) => state.auth)
@@ -32,6 +33,9 @@ function Login() {
 			navigate("/")
 		}
 	}, [loggedIn])
+	useEffect(() => {
+		dispatch(clearError())
+	}, [])
 	return (
 		<div
 			className="d-flex justify-content-center fade-page slide-top"
@@ -62,7 +66,7 @@ function Login() {
 						Welcome back to your account
 					</p>
 				</div>
-
+				<ValidationErrors type="auth"/>
 				{/* Inputs */}
 				<div className="d-flex flex-column gap-3">
 

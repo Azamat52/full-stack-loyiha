@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Input from '../ui/Input'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { failRegistar, startRegistar, succedRegistar } from '../slices/authSlice';
+import { clearError, failRegistar, startRegistar, succedRegistar } from '../slices/authSlice';
 import AuthService from '../services/AuthService';
+import ValidationErrors from './ValidationErrors';
 
 function Registar() {
 	const { isLoading, loggedIn, isRegistar } = useSelector((state) => state.auth)
@@ -33,6 +34,9 @@ function Registar() {
 			navigate("/")
 		}
 	}, [loggedIn])
+	useEffect(() => {
+		dispatch(clearError())
+	}, [])
 	return (
 		<div className="d-flex justify-content-center fade-page slide-top">
 
@@ -61,6 +65,8 @@ function Registar() {
 						Create your new account
 					</p>
 				</div>
+
+				<ValidationErrors type="auth" />
 
 				{/* Inputs */}
 				<div className="d-flex flex-column gap-3">

@@ -8,6 +8,7 @@ import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
 import { useOpenModal } from '../hooks/useOpenModal'
 import { RotatingLines } from "react-loader-spinner"
+import ValidationErrors from '../components/ValidationErrors'
 
 function Home() {
 	const { loggedIn } = useSelector((state) => state.auth)
@@ -65,7 +66,11 @@ function Home() {
 	return (
 		<div
 			className='w-100'
-			style={{ background: '#020617' }}
+			style={{
+				minHeight: "100vh",
+				background: "#020617",
+				flexDirection: "column"
+			}}
 		>
 			<div className='container py-4'>
 				{isLoading && <RotatingLines color='#fff' height="70" width="70"/>}	
@@ -217,6 +222,7 @@ function Home() {
 
 			</div>
 			<Modal sub="Create Post" body="Create everything which come to your mind">
+				<ValidationErrors type="post" />
 				<form onSubmit={handleSubmit}>
 					<Input label="Title" id="title" value={title} placeholder="Title" setState={setTitle} disabled={isLoading}/>
 					<Input label="Description" id="description" value={description} placeholder="Description" setState={setDescription} disabled={isLoading}/>

@@ -59,14 +59,47 @@ function Navbar() {
             </button>
 
             {loggedIn ? (
-              <div className='d-flex align-items-center gap-4'>
-                <p className='text-white pt-3 text-capitalize user'>{user.userDto.username} <i className="fa-regular fa-user"></i></p>
-                <button className="btn btn-light px-4 py-2 rounded-pill fw-semibold"
-                  onClick={LogOut}
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Wait.." : "Log Out"}
-                </button>
+              <div className='position-relative'>
+
+                <div className='user-wrapper d-flex align-items-center gap-3'>
+
+                  {/* USER */}
+                  <div className='user-box'>
+
+                    <div className='user-icon'>
+                      <i className="fa-regular fa-user"></i>
+                    </div>
+
+                    <p className='user-name m-0'>
+                      {user.userDto.username}
+                    </p>
+
+                  </div>
+
+                  {/* LOGOUT */}
+                  <button
+                    className="btn btn-light px-4 py-2 rounded-pill fw-semibold"
+                    onClick={LogOut}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Wait.." : "Log Out"}
+                  </button>
+
+                  {/* HOVER BOX */}
+                  <div className='user-hover-box'>
+
+                    <p className='m-0 text-white'>
+                      {user.userDto.isActivated ? "Account is activated" : "Account is not activated"}
+                    </p>
+
+                    {/* <p className='m-0 text-white'>
+                      Settings
+                    </p> */}
+
+                  </div>
+
+                </div>
+
               </div>
             ) : (
               <Link to="/auth">

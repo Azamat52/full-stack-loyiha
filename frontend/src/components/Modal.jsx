@@ -1,15 +1,24 @@
+import { useDispatch } from 'react-redux'
 import { useOpenModal } from '../hooks/useOpenModal'
+import { useEffect } from 'react'
+import { clearPostError } from '../slices/postSlice'
 
 function Modal({ children, sub, body }) {
   const { isOpen, onClose } = useOpenModal()
-
+  const dispatch = useDispatch()
+  const handleClose = () => {
+    onClose()
+    dispatch(clearPostError())
+  }
   return (
     <div
-      className={`overlay ${isOpen ? "show" : ""}`}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      className={`overlay  ${isOpen ? "show" : ""}`}
+      onClick={(e) => e.target === e.currentTarget && handleClose()}
     >
-      <div className={`custom-modal ${isOpen ? "open" : ""}`}>
-
+      <div 
+        className={`custom-modal ${isOpen ? "open" : ""}`}
+        style={{maxHeight: "100vh", overflowY: "auto"}}
+      >
         {/* Header */}
         <div className="modal-header-custom">
 
@@ -25,7 +34,7 @@ function Modal({ children, sub, body }) {
 
           <button
             className="close-btn"
-            onClick={onClose}
+            onClick={handleClose}
           >
             ✕
           </button>
