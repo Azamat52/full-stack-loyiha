@@ -8,7 +8,7 @@
   opacity: 0;
   visibility: hidden;
   transition: 0.3s ease;
-  z-index: 999;
+  z-index: 10000;
 }
 
 .overlay.show {
@@ -318,23 +318,16 @@
   display: flex;
   align-items: center;
   gap: 12px;
-
   padding: 10px 18px;
-
   background: rgba(255, 255, 255, 0.04);
-
   border: 1px solid #1e293b;
-
   border-radius: 999px;
-
   transition: 0.3s ease;
 }
 
 .user-box:hover {
   background: rgba(255, 255, 255, 0.07);
-
   border: 1px solid #334155;
-
   box-shadow:
     0 0 20px rgba(255, 255, 255, 0.05);
 }
@@ -398,7 +391,7 @@
   z-index: 999;
 }
 
-.user-wrapper:hover .user-hover-box {
+.user-box:hover .user-hover-box {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -466,4 +459,119 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* --------pagination panel */
+/* container (oldingi bilan bir xil) */
+.pagination-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+/* BUTTONS */
+.pagination-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  background: #1e293b;
+  color: #fff;
+
+  border: none;
+  min-width: 42px;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  cursor: default;
+  transition: 0.2s ease;
+}
+
+.active_button {
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  background: #335080;
+  color: #fff;
+
+  border: none;
+  min-width: 42px;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  cursor: default;
+  transition: 0.2s ease;
+}
+
+.pagination-btn:hover {
+  background: #334155;
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active_button:hover {
+  transform: translateY(-1px);
+  background: #4b6b96;
+}
+
+/* ACTIVE */
+.pagination-btn.active {
+  background: #7c3aed;
+  color: white;
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.6);
+  transform: scale(1.05);
+}
+
+/* NAV */
+.nav-btn {
+  background: #020617;
+  border: 1px solid #334155;
+}
+
+/* DOTS */
+.pagination-dots {
+  color: #94a3b8;
+  font-size: 18px;
+  padding: 0 6px;
+}
+
+/* DIVIDER */
+.pagination-divider {
+  width: 1px;
+  height: 25px;
+  background: #334155;
+  margin: 0 5px;
+}
+
+/* SELECT */
+.pagination-select {
+  background: #1e293b;
+  color: white;
+
+  border: 1px solid #334155;
+  border-radius: 10px;
+
+  padding: 6px 10px;
+  font-size: 14px;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.pagination-select:hover {
+  background: #334155;
 }

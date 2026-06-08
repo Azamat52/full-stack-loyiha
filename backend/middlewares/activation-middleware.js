@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
 
 			return next(
 				BaseError.BadRequest(
-					"You should activate your account"
+					"You should activate your account to create new posts"
 				)
 			)
 		}

@@ -4,7 +4,7 @@ class PostController {
     async getAllPosts(req, res, next) {
         try {
             const allPosts = await PostService.get()
-            const checkedPosts = allPosts.length > 0 ? allPosts : null
+            const checkedPosts = allPosts.length > 0 ? allPosts : []
             res.status(201).json(checkedPosts)
         } catch (error) {
             next(error)
@@ -12,8 +12,8 @@ class PostController {
     }
     async createPost(req, res, next) {
         try {
-            console.log(req.body);
-            const newPost = await PostService.create(req.body, req.user.id)
+            console.log(req.formData);
+            const newPost = await PostService.create(req.body, req.user.id, req.formData.picture)
             res.status(201).json(newPost)
         } catch (error) {
             next(error)

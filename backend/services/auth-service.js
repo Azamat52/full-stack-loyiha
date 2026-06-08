@@ -30,7 +30,6 @@ class AuthService {
         return { userDto, ...tokens }
     }
     async activation(userId) {
-        console.log("your acc is activated");
         const user = await UserModel.findById(userId)
         if (!user) {
             throw BaseError.BadRequest("UserId is not defined , please check your email");

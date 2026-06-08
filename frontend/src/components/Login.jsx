@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError, failLogin, startLogin, succedLogin } from '../slices/authSlice';
 import AuthService from '../services/AuthService';
 import ValidationErrors from './ValidationErrors';
+import toast from 'react-hot-toast'
 
 function Login() {
 	const { isLoading, loggedIn } = useSelector((state) => state.auth)
@@ -22,8 +23,10 @@ function Login() {
 			dispatch(succedLogin(res))
 			navigate("/")
 			Reset()
+			toast.success("Login successful" , { style: { color: "#fff", background: "#020617" } }	)
 		} catch (error) {
 			dispatch(failLogin(error.response?.data))
+			toast.error("Error logging in", { style: { color: "#fff", background: "#030921" } })
 		}
 	}
 	const Reset = () => { setEmail(""); setPassword("") }

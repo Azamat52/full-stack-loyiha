@@ -13,15 +13,14 @@ class PostService {
             const authorDto = new UserDto(post.author)
             return { ...postDto, author: authorDto}
         })
-        console.log(formattedPosts);
         return formattedPosts
     }
-    async create(post, authorId) {
+    async create(post, authorId, picture) {
         if (!authorId) {
             throw BaseError.BadRequest("AuthorId is not found creating post")
         }
-        // const fileName = await fileService.save(picture)
-        const createdPost = await postModel.create({ ...post, author: authorId })
+        const fileName = await fileService.save(picture)
+        const createdPost = await postModel.create({ ...post, author: authorId, picture: fileName })
         const author = await UserModel.findById(authorId)
         const createdPostDto = new PostDto(createdPost)
         return { ...createdPostDto, author: new UserDto(author) }

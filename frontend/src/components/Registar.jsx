@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearError, failRegistar, startRegistar, succedRegistar } from '../slices/authSlice';
 import AuthService from '../services/AuthService';
 import ValidationErrors from './ValidationErrors';
+import { toast } from 'react-hot-toast';
 
 function Registar() {
 	const { isLoading, loggedIn, isRegistar } = useSelector((state) => state.auth)
@@ -24,8 +25,10 @@ function Registar() {
 			dispatch(succedRegistar())
 			navigate("/auth/login")
 			Reset()
+			toast.success("Registered successfully", { style: { color: "#fff", background: "#030921" } })
 		} catch (error) {
 			dispatch(failRegistar(error.response?.data))
+			toast.error("Error registering", { style: { color: "#fff", background: "#030921" } })
 		}
 	}
 

@@ -73,7 +73,17 @@ function Navbar() {
                     <p className='user-name m-0'>
                       {user.userDto.username}
                     </p>
+                    {/* HOVER BOX */}
+                    <div className='user-hover-box'>
 
+                      <p className='m-0 text-white'>
+                        {user.userDto.isActivated ? "Account is activated" : "Account is not activated"}
+                      </p>
+
+                      {/* <p className='m-0 text-white'>
+                      Settings
+                    </p> */}
+                    </div>
                   </div>
 
                   {/* LOGOUT */}
@@ -84,22 +94,7 @@ function Navbar() {
                   >
                     {isLoading ? "Wait.." : "Log Out"}
                   </button>
-
-                  {/* HOVER BOX */}
-                  <div className='user-hover-box'>
-
-                    <p className='m-0 text-white'>
-                      {user.userDto.isActivated ? "Account is activated" : "Account is not activated"}
-                    </p>
-
-                    {/* <p className='m-0 text-white'>
-                      Settings
-                    </p> */}
-
-                  </div>
-
                 </div>
-
               </div>
             ) : (
               <Link to="/auth">

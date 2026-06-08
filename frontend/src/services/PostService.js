@@ -9,6 +9,10 @@ const PostService = {
 		const { data } = await api.post("/post/create", newPost)
 		return data
 	},
+	async editById(id, updatedPost) {
+		const { data } = await api.put(`/post/edit/${id}`, updatedPost)
+		return data
+	},
 	async deleteById(id) {
 		const { data } = await api.delete(`/post/delete/${id}`)
 		return data
