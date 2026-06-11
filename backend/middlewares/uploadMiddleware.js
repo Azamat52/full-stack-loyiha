@@ -39,7 +39,6 @@ module.exports = (req, res, next) => {
       return next(
         BaseError.BadRequest("Error with validation", [
           {
-            path: "picture",
             msg:
               err.code === "LIMIT_FILE_SIZE"
                 ? "Picture size must not exceed 5MB"

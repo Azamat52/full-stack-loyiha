@@ -2,22 +2,39 @@ import { useDispatch } from 'react-redux'
 import { useOpenModal } from '../hooks/useOpenModal'
 import { useEffect } from 'react'
 import { clearPostError } from '../slices/postSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Modal({ children, sub, body }) {
-  const { isOpen, onClose } = useOpenModal()
+  const { isOpen, onClose, onOpen } = useOpenModal()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      onOpen()
+    })
+  }, [])
+
   const handleClose = () => {
     onClose()
     dispatch(clearPostError())
+
+    setTimeout(() => {
+      navigate("/")
+    }, 200)
   }
   return (
     <div
       className={`overlay  ${isOpen ? "show" : ""}`}
       onClick={(e) => e.target === e.currentTarget && handleClose()}
     >
-      <div 
+      <div
         className={`custom-modal ${isOpen ? "open" : ""}`}
-        style={{maxHeight: "100vh", overflowY: "auto"}}
+        style={{
+          maxHeight: "100vh",
+          overflowY: "auto",
+
+        }}
       >
         {/* Header */}
         <div className="modal-header-custom">

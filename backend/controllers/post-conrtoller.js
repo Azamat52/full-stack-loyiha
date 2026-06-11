@@ -12,8 +12,9 @@ class PostController {
     }
     async createPost(req, res, next) {
         try {
-            console.log(req.formData);
-            const newPost = await PostService.create(req.body, req.user.id, req.formData.picture)
+            console.log(req.body, "SALOM");
+            console.log(req.file, "SALOM2");
+            const newPost = await PostService.create(req.body, req.user.id, req.file)
             res.status(201).json(newPost)
         } catch (error) {
             next(error)

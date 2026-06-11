@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from "react-router-dom";
-import Input from '../ui/Input'
+import Input from '../../ui/Input'
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError, failLogin, startLogin, succedLogin } from '../slices/authSlice';
-import AuthService from '../services/AuthService';
-import ValidationErrors from './ValidationErrors';
+import { clearError, failLogin, startLogin, succedLogin } from '../../slices/authSlice';
+import AuthService from '../../services/AuthService';
+import ValidationErrors from '../ValidationErrors';
 import toast from 'react-hot-toast'
+import LoadingOverlay from '../loader/LoadingOverlay';
 
 function Login() {
 	const { isLoading, loggedIn } = useSelector((state) => state.auth)
@@ -23,7 +24,7 @@ function Login() {
 			dispatch(succedLogin(res))
 			navigate("/")
 			Reset()
-			toast.success("Login successful" , { style: { color: "#fff", background: "#020617" } }	)
+			toast.success("Login successful", { style: { color: "#fff", background: "#020617" } })
 		} catch (error) {
 			dispatch(failLogin(error.response?.data))
 			toast.error("Error logging in", { style: { color: "#fff", background: "#030921" } })
@@ -43,7 +44,6 @@ function Login() {
 		<div
 			className="d-flex justify-content-center fade-page slide-top"
 		>
-
 			<form
 				onSubmit={handleSubmit}
 				className="p-4"
@@ -69,7 +69,7 @@ function Login() {
 						Welcome back to your account
 					</p>
 				</div>
-				<ValidationErrors type="auth"/>
+				<ValidationErrors type="auth" />
 				{/* Inputs */}
 				<div className="d-flex flex-column gap-3">
 

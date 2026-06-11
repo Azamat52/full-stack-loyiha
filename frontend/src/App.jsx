@@ -1,39 +1,14 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import Login from './components/Login';
+import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
-import Registar from './components/Registar';
+import Registar from './components/auth/Registar';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
-import { useEffect } from 'react';
-import { getItem, setItem } from './services/StorageSystem';
-import { useDispatch } from 'react-redux';
-import AuthService from './services/AuthService';
-import { succedLogin } from './slices/authSlice';
 import { Toaster } from "react-hot-toast";
-import EditPost from './components/EditPost';
+import CreatePost from './components/post/CreatePost';
+import EditPost from './components/post/EditPost';
 
 function App() {
-  const dispatch = useDispatch()
-  let refreshing = false
-  const refresh = async () => {
-    if (refreshing) return;
-    try {
-      refreshing = true
-      const res = await AuthService.refresh()
-      setItem("token", res.accessToken)
-      dispatch(succedLogin(res))
-    } catch (error) {
-      console.log(error.response.data);
-    } finally {
-      refreshing = false
-    }
-  }
-  useEffect(() => {
-    const token = getItem("token")
-    if (token) {
-      refresh()
-    }
-  }, [])
   return (
     <div>
       <Navbar />
@@ -45,6 +20,7 @@ function App() {
           <Route path='/auth/registar' element={<Registar />}></Route>
         </Route>
         <Route path='/' element={<Home />}>
+          <Route path='/create' element={<CreatePost />}></Route>
           <Route path='/edit/:id' element={<EditPost />}></Route>
         </Route>
       </Routes>

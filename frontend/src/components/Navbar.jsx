@@ -53,7 +53,7 @@ function Navbar() {
                 backgroundColor: "#020617",
                 border: "1px solid #1e293b",
               }}
-              onClick={onOpen}
+              onClick={() => navigate("/create")}
             >
               Create Post
             </button>

@@ -5,8 +5,8 @@ const PostService = {
 		const { data } = await api.get("/post/get")
 		return data
 	},
-	async create(newPost) {
-		const { data } = await api.post("/post/create", newPost)
+	async create(formData) {
+		const { data } = await api.post("/post/create", formData)
 		return data
 	},
 	async editById(id, updatedPost) {

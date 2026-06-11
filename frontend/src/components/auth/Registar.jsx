@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import Input from '../ui/Input'
+import Input from '../../ui/Input'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { clearError, failRegistar, startRegistar, succedRegistar } from '../slices/authSlice';
-import AuthService from '../services/AuthService';
-import ValidationErrors from './ValidationErrors';
+import { clearError, failRegistar, startRegistar, succedRegistar } from '../../slices/authSlice';
+import AuthService from '../../services/AuthService';
+import ValidationErrors from '../ValidationErrors';
 import { toast } from 'react-hot-toast';
 
 function Registar() {
@@ -42,7 +42,7 @@ function Registar() {
 	}, [])
 	return (
 		<div className="d-flex justify-content-center fade-page slide-top">
-
+			
 			<form
 				onSubmit={handleSubmit}
 				className="p-4"
@@ -107,7 +107,7 @@ function Registar() {
 						disabled={isRegistar}
 						className="btn btn-light w-50 py-2 rounded-pill fw-semibold"
 					>
-						{isRegistar ? "Loading..." : "Register"}
+						{isRegistar ? "Registaring..." : "Register"}
 					</button>
 
 					<button

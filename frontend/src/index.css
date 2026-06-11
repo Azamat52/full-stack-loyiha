@@ -1,3 +1,8 @@
+body {
+  background: #020617;
+  height: max-content;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -75,6 +80,8 @@
   flex-direction: column;
   gap: 3px;
 }
+
+/* ----- */
 
 .floating-input-wrapper {
   position: relative;
