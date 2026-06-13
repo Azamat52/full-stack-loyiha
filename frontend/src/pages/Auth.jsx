@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import Registar from '../components/auth/Registar'
 import Login from '../components/auth/Login'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import LoadingOverlay from '../components/loader/LoadingOverlay'
 
 function Auth() {
 	const { loggedIn, isLoading, isRegistar } = useSelector((state) => state.auth)
+
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (loggedIn) {

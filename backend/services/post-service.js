@@ -15,12 +15,12 @@ class PostService {
         })
         return formattedPosts
     }
-    async create(post, authorId, picture) {
+    async create(post, authorId, picture) {        
         if (!authorId) {
             throw BaseError.BadRequest("AuthorId is not found creating post")
         }
-        const fileName = await fileService.save(picture)
-        const createdPost = await postModel.create({ ...post, author: authorId, picture: fileName })
+        const file = await fileService.save(picture)
+        const createdPost = await postModel.create({ ...post, author: authorId, picture: file })
         const author = await UserModel.findById(authorId)
         const createdPostDto = new PostDto(createdPost)
         return { ...createdPostDto, author: new UserDto(author) }
@@ -35,10 +35,11 @@ class PostService {
         const postAuthorDto = new UserDto(postAuthor)
         return { ...deletedPostDto, author: postAuthorDto }
     }
-    async edit(id, post) {
+    async edit(id, post, picture) {
         if (!id) {
             throw BaseError.BadRequest("Id is not found editing post by id")
         }
+        const file = await fileService.save(picture)
         const editedPost = await postModel.findByIdAndUpdate(id, post, { new: true })
         const postAuthor = await UserModel.findById(editedPost.author)
         const editedPostDto = new PostDto(editedPost)

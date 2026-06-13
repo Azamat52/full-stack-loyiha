@@ -1,6 +1,6 @@
 const { body } = require("express-validator")
 
-exports.postCreateValidator = [
+exports.postValidator = [
 	body("title")
 		.notEmpty()
 		.withMessage("Title is required")

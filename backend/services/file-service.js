@@ -4,7 +4,7 @@ const fs = require("fs")
 const BaseError = require("../errors/base-error")
 
 class FileService {
-	async save(file) {
+	async save(file) {		
 		try {
 			const fileName = id() + ".jpg"
 			const staticDir = path.join(__dirname, "..", "static")

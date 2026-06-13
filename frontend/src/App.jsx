@@ -1,14 +1,43 @@
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
 import Registar from './components/auth/Registar';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import CreatePost from './components/post/CreatePost';
 import EditPost from './components/post/EditPost';
+import { useDispatch } from 'react-redux';
+import { failLogin, startLogin, succedLogin } from './slices/authSlice';
+import AuthService from './services/AuthService';
+import { useEffect } from 'react';
+import { getItem, setItem } from './services/StorageSystem';
 
 function App() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const getUserRefresh = async () => {
+    dispatch(startLogin())
+    try {
+      const res = await AuthService.refresh()
+      setItem("token", res.accessToken)
+      dispatch(succedLogin(res))
+      navigate(-2)
+    } catch (error) {
+      dispatch(failLogin())
+      toast.error(error?.response?.data?.message, {
+        style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+      })
+    }
+  }
+
+  useEffect(() => {
+    const token = getItem("token")
+    if (token) {
+      getUserRefresh()
+    }
+  }, [])
   return (
     <div>
       <Navbar />

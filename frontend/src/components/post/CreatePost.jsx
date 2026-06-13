@@ -2,19 +2,23 @@ import { useState } from "react";
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import PostService from "../../services/PostService";
-import { createPostfail, createPostStart, createPostSucced } from '../../slices/postSlice';
+import { createPostfail, createPostStart, createPostSucced, getPostSucced } from '../../slices/postSlice';
 import Input from "../../ui/Input";
 import TextArea from "../../ui/TextArea";
 import Modal from "../Modal";
 import ValidationErrors from '../ValidationErrors';
+import { useNavigate } from 'react-router-dom';
+import { useOpenModal } from '../../hooks/useOpenModal';
 
 function CreatePost() {
-	const [title, setTitle] = useState("dew")
-	const [description, setDescription] = useState("wewef")
-	const [body, setBody] = useState("fewfw")
+	const [title, setTitle] = useState("")
+	const [description, setDescription] = useState("")
+	const [body, setBody] = useState("")
 	const [picture, setPicture] = useState(null)
 
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const { onClose } = useOpenModal()
 	const { isLoading } = useSelector((state) => state.post)
 
 	const resetForm = () => {
@@ -37,6 +41,12 @@ function CreatePost() {
 		try {
 			await PostService.create(formData)
 			dispatch(createPostSucced())
+			const res = await PostService.getPosts()
+			dispatch(getPostSucced(res))
+			onClose()
+			setTimeout(() => {
+				navigate(-1)
+			}, 200)
 			resetForm()
 			toast.success("Post successfully created", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
@@ -62,25 +72,29 @@ function CreatePost() {
 				<Input
 					label="Title"
 					value={title}
-					onChange={(e) => setTitle(e.target.value)}
+					setState={setTitle}
+					disabled={isLoading}
 				/>
 
 				<Input
 					label="Description"
 					value={description}
-					onChange={(e) => setDescription(e.target.value)}
+					setState={setDescription}
+					disabled={isLoading}
 				/>
 
 				<Input
 					label="Picture"
 					type="file"
-					onChange={(e) => setPicture(e.target.files[0])}
+					setState={setPicture}
+					disabled={isLoading}
 				/>
 
 				<TextArea
 					label="Body"
 					value={body}
-					onChange={(e) => setBody(e.target.value)}
+					setState={setBody}
+					disabled={isLoading}
 				/>
 
 				<div className="d-flex gap-3 mt-3">
@@ -90,7 +104,7 @@ function CreatePost() {
 						className="btn btn-light w-100"
 						disabled={isLoading}
 					>
-						{isLoading ? "Creating" : "Create..."}
+						{isLoading ? "Creating..." : "Create"}
 					</button>
 
 					<button

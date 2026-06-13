@@ -2,21 +2,24 @@ import { useState } from "react";
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import PostService from "../../services/PostService";
-import { createPostfail, createPostStart, createPostSucced, editPostfail, editPostStart, editPostSucced } from '../../slices/postSlice';
+import { createPostfail, createPostStart, createPostSucced, editPostfail, editPostStart, editPostSucced, getPostSucced } from '../../slices/postSlice';
 import Input from "../../ui/Input";
 import TextArea from "../../ui/TextArea";
 import Modal from "../Modal";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ValidationErrors from '../ValidationErrors';
+import { useOpenModal } from '../../hooks/useOpenModal';
 
 function EditPost() {
-	const [title, setTitle] = useState("ewfw")
-	const [description, setDescription] = useState("fewfw")
-	const [body, setBody] = useState("ffwe")
+	const [title, setTitle] = useState("")
+	const [description, setDescription] = useState("")
+	const [body, setBody] = useState("")
 	const [picture, setPicture] = useState(null)
 
 	const { isLoading } = useSelector((state) => state.post)
-	const dispatch = useDispatch()
+	const { onClose } = useOpenModal()
+ 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	const { id } = useParams()
 
 	const resetForm = () => {
@@ -30,15 +33,17 @@ function EditPost() {
 		e.preventDefault()
 		dispatch(editPostStart())
 
-		const formData = new FormData()
-		formData.append("title", title)
-		formData.append("body", body)
-		formData.append("description", description)
-		formData.append("picture", picture)
+		const updatedPost = {title, description, body}
 
 		try {
-			await PostService.editById(formData, id)
+			await PostService.editById(updatedPost, id)
 			dispatch(editPostSucced())
+			const res = await PostService.getPosts()
+			dispatch(getPostSucced(res))
+			onClose()
+			setTimeout(() => {
+				navigate(-1)
+			}, 200)
 			resetForm()
 			toast.success("Post successfully edited", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
@@ -56,32 +61,30 @@ function EditPost() {
 		<Modal
 			sub="Edit Post"
 			body="Edit your post if you want"
-		>	
-			<ValidationErrors type="post"/>
+		>
+			<ValidationErrors type="post" />
+
 			<form onSubmit={onEditSubmit}>
 
 				<Input
 					label="Title"
 					value={title}
-					onChange={(e) => setTitle(e.target.value)}
+					setState={setTitle}
+					disabled={isLoading}
 				/>
 
 				<Input
 					label="Description"
 					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-				/>
-
-				<Input
-					label="Picture"
-					type="file"
-					onChange={(e) => setPicture(e.target.files[0])}
+					setState={setDescription}
+					disabled={isLoading}
 				/>
 
 				<TextArea
 					label="Body"
 					value={body}
-					onChange={(e) => setBody(e.target.value)}
+					setState={setBody}
+					disabled={isLoading}
 				/>
 
 				<div className="d-flex gap-3 mt-3">

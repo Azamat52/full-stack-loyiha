@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 
@@ -11,16 +11,20 @@ function Input({
   disabled,
   setState
 }) {
+  const [hide, setHide] = useState(true)
+  const toggeHidePassword = () => {
+    setHide((prev) => prev ? false : true)
+  }
   return (
     <div className="floating-input-wrapper">
 
       <input
-        type={type}
+        type={label === "Password" && (hide ? "password" : "text")}
         id={id}
         value={value}
         placeholder=" "
         className="floating-input"
-        onChange={(e) => setState(e.target.value)}
+        onChange={(e) => setState(type === "file" ? e.target.files[0] : e.target.value)}
         disabled={disabled}
       />
 
@@ -28,8 +32,23 @@ function Input({
         htmlFor={id}
         className="floating-label"
       >
-        {label}
+        {label} 
       </label>
+
+      {label === "Password" && (
+        <div 
+          className='hide-password' onClick={toggeHidePassword}
+          style={{
+            display: value ? "block" : "none"
+          }}
+        >
+          {hide ? (
+            <i class="fa-regular fa-eye text-white"></i>
+          ): (
+            <i class="fa-solid fa-eye-slash text-white"></i>
+          )}
+        </div>
+      )}
 
     </div>
   )

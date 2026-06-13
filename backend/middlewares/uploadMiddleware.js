@@ -1,53 +1,33 @@
-const multer = require("multer");
 const BaseError = require("../errors/base-error");
 
-const upload = multer({
-  storage: multer.memoryStorage(),
+module.exports = function (req, res, next) {
+	
+	try {
+		if (!req.files || !req.files.picture) {
+			return next(
+				BaseError.BadRequest("Picture is required")
+			);
+		}
 
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
+		const picture = req.files.picture;
 
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "image/jpg",
-    ];
+		const allowedTypes = [
+			"image/jpeg",
+			"image/jpg",
+			"image/png",
+			"image/webp",
+		];
+		
+		if (!allowedTypes.includes(picture.mimetype)) {
+			return next(
+				BaseError.BadRequest(
+					"Only jpg, jpeg, png and webp images are allowed"
+				)
+			);
+		}
 
-    if (!allowedTypes.includes(file.mimetype)) {
-      return cb(
-        BaseError.BadRequest("Error with validation", [
-          {
-            path: "picture",
-            msg: "Only JPG, PNG and WEBP images are allowed",
-          },
-        ])
-      );
-    }
-
-    cb(null, true);
-  },
-});
-
-module.exports = (req, res, next) => {
-  upload.single("picture")(req, res, (err) => {
-    if (!err) return next();
-
-    if (err instanceof multer.MulterError) {
-      return next(
-        BaseError.BadRequest("Error with validation", [
-          {
-            msg:
-              err.code === "LIMIT_FILE_SIZE"
-                ? "Picture size must not exceed 5MB"
-                : err.message,
-          },
-        ])
-      );
-    }
-
-    return next(err);
-  });
+		next();
+	} catch (error) {
+		next(error);
+	}
 };

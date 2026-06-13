@@ -1,6 +1,6 @@
 const express = require("express");
 const PostController = require("../controllers/post-conrtoller");
-const { postCreateValidator } = require('../errors/post-validator-result');
+const { postValidator } = require('../errors/post-validator-result');
 const validate = require('../middlewares/validate-middlewares');
 const authMiddlewares = require("../middlewares/auth-middlewares");
 const authorEditMiddleware = require('../middlewares/author-edit-middleware');
@@ -11,9 +11,9 @@ const uploadMiddleware = require('../middlewares/uploadMiddleware');
 const router = express.Router()	
 
 router.get("/get", PostController.getAllPosts)
-router.post("/create", uploadMiddleware, postCreateValidator, validate, authMiddlewares, activationMiddleware, PostController.createPost)
+router.post("/create", uploadMiddleware, postValidator, validate, authMiddlewares, activationMiddleware, PostController.createPost)
 router.delete("/delete/:id", authMiddlewares, authorDeleteMiddleware, PostController.deletePost)
-router.put("/edit/:id", authMiddlewares, authorEditMiddleware, PostController.editPost)
+router.put("/edit/:id", postValidator, validate, authMiddlewares, authorEditMiddleware, PostController.editPost)
 router.get("/get-by-id/:id", PostController.getPostById)
 router.delete("/clear", PostController.clearAll)
 

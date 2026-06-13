@@ -8,12 +8,14 @@ import toast from 'react-hot-toast'
 import LoadingOverlay from '../components/loader/LoadingOverlay'
 import PostGrid from '../components/post/PostGrid'
 import PaginationPanel from '../components/pagination/PaginationPanel'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 function Home() {
 
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
+	const { loggedIn } = useSelector((state) => state.auth)
 	const { posts = [], isLoading } = useSelector((state) => state.post)
 	const { currentPage, perPage } = useSelector((state) => state.paginations)
 
@@ -37,7 +39,7 @@ function Home() {
 	useEffect(() => {
 		getAllPosts()
 	}, [])
-
+	
 	// DELETE POSTS
 	const deletePost = async (id) => {
 		dispatch(deletePostStart())
@@ -56,6 +58,12 @@ function Home() {
 			})
 		}
 	}
+	// ------
+	useEffect(() => {
+		if (!loggedIn) {
+			navigate("/auth")
+		}
+	}, [loggedIn])
 
 	// PAGINATION LOGIK
 	const safePosts = posts ?? []
@@ -75,8 +83,6 @@ function Home() {
 		buttonPagination.push(totalPages)
 	}
 
-	console.log(buttonPagination, "buttons");
-
 	const filteredButtonPagination = []
 
 	for (let i = 0; i < buttonPagination.length; i++) {
@@ -89,7 +95,6 @@ function Home() {
 			filteredButtonPagination.push("...")
 		}
 	}
-	console.log(filteredButtonPagination);
 
 	return (
 		<div>

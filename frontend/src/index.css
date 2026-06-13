@@ -136,6 +136,13 @@ body {
   color: white;
 }
 
+.hide-password {
+  position: absolute;
+  top: 19px;
+  right: 18px;
+  cursor: pointer;
+}
+
 .floating-textarea-wrapper {
   position: relative;
   width: 100%;

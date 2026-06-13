@@ -18,7 +18,6 @@ module.exports = async function (req, res, next) {
 		if (!payload) {
 			return next(BaseError.UnAutharized())
 		}
-		console.log(payload);
 				
 		const checkedUserDto = await tokenModel.findOne({ user: payload.userDto.id }).populate("user")
 		if (!checkedUserDto) {
