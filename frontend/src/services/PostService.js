@@ -16,6 +16,10 @@ const PostService = {
 	async deleteById(id) {
 		const { data } = await api.delete(`/post/delete/${id}`)
 		return data
+	},
+	async getById(id) {
+		const { data } = await api.get(`/post/get-by-id/${id}`)
+		return data
 	}
 }
 

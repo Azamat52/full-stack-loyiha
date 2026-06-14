@@ -23,7 +23,7 @@ function Home() {
 	const getAllPosts = async () => {
 		dispatch(getPostStart())
 		try {
-			const res = await PostService.getPosts()			
+			const res = await PostService.getPosts()
 			dispatch(getPostSucced(res))
 			toast.success("Posts succesfully loaded", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
@@ -53,7 +53,7 @@ function Home() {
 
 		} catch (error) {
 			dispatch(deletePostfail(error?.response?.data))
-			toast.error("Error deleting post", {
+			toast.error(error?.response?.data?.message, {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
 			})
 		}
@@ -81,7 +81,7 @@ function Home() {
 
 	const buttonPagination = [1]
 
-	for (let i = Math.max(2, currentPage - 2); i <= Math.min(20, currentPage + 2); i++) {
+	for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
 		buttonPagination.push(i);
 	}
 
@@ -110,7 +110,11 @@ function Home() {
 				<PostGrid posts={slicedPosts} deletePost={deletePost} />
 			</div>
 
-			<PaginationPanel totalPages={totalPages} />
+			{totalPages > 1 && (
+				<PaginationPanel
+					totalPages={totalPages}
+					filteredButtonPagination={filteredButtonPagination} />
+			)}
 			<Outlet />
 		</div>
 	)

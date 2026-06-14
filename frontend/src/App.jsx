@@ -12,6 +12,7 @@ import { failLogin, startLogin, succedLogin } from './slices/authSlice';
 import AuthService from './services/AuthService';
 import { useEffect } from 'react';
 import { getItem, setItem } from './services/StorageSystem';
+import PostDetail from './components/post/PostDetail';
 
 function App() {
   const dispatch = useDispatch()
@@ -23,7 +24,6 @@ function App() {
       const res = await AuthService.refresh()
       setItem("token", res.accessToken)
       dispatch(succedLogin(res))
-      navigate(-2)
     } catch (error) {
       dispatch(failLogin())
       toast.error(error?.response?.data?.message, {
@@ -52,6 +52,7 @@ function App() {
           <Route path='/create' element={<CreatePost />}></Route>
           <Route path='/edit/:id' element={<EditPost />}></Route>
         </Route>
+        <Route path='/detail/:id' element={<PostDetail />}></Route>
       </Routes>
       <Outlet />
     </div>

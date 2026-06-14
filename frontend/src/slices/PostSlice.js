@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	posts: null,
+	postDetail: null,
 	isLoading: false,
 	PostError: null
 }
@@ -10,7 +11,7 @@ export const postSlice = createSlice({
 	initialState,
 	name: "post",
 	reducers: {
-		getPostStart: (state, action) => {
+		getPostStart: (state) => {
 			state.isLoading = true
 		},
 		getPostSucced: (state, action) => {
@@ -33,7 +34,7 @@ export const postSlice = createSlice({
 			state.PostError = action.payload
 			console.log(state.PostError);
 		},
-		deletePostStart: (state, action) => {
+		deletePostStart: (state) => {
 			state.isLoading = true
 		},
 		deletePostSucced: (state) => {
@@ -44,7 +45,7 @@ export const postSlice = createSlice({
 			state.PostError = action.payload
 			console.log(state.PostError)
 		},
-		editPostStart: (state, action) => {
+		editPostStart: (state) => {
 			state.isLoading = true
 		},
 		editPostSucced: (state) => {
@@ -55,11 +56,24 @@ export const postSlice = createSlice({
 			state.PostError = action.payload
 			console.log(state.PostError)
 		},
+		getPostDetailStart: (state) => {
+			state.isLoading = true
+		},
+		getPostDetailSucced: (state, action) => {
+			state.postDetail = action.payload
+			state.isLoading = false
+		},
+		getPostDetailfail: (state, action) => {
+			state.postDetail = null;
+			state.isLoading = false
+			state.PostError = action.payload
+			console.log(state.PostError)
+		},
 		clearPostError: (state) => {
 			state.PostError = null
 		}
 	}
 })
 
-export const { getPostStart, getPostSucced, getPostfail, createPostStart, createPostSucced, createPostfail, deletePostStart, deletePostSucced, deletePostfail, editPostStart, editPostSucced, editPostfail, clearPostError } = postSlice.actions
+export const { getPostStart, getPostSucced, getPostfail, createPostStart, createPostSucced, createPostfail, deletePostStart, deletePostSucced, deletePostfail, editPostStart, editPostSucced, editPostfail, getPostDetailStart, getPostDetailSucced, getPostDetailfail, clearPostError } = postSlice.actions
 export default postSlice.reducer

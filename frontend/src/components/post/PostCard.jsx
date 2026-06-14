@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 function PostCard({ post, deletePost }) {
-	console.log(post.picture);
-
+	
 	const navigate = useNavigate()
 	return (
 		<div className="col-md-6 col-lg-4" >
@@ -100,7 +99,10 @@ function PostCard({ post, deletePost }) {
 
 					<div className="d-flex gap-2 flex-wrap">
 
-						<button className="custom-btn view-btn flex-fill">
+						<button
+							className="custom-btn view-btn flex-fill"
+							onClick={() => navigate(`/detail/${post.id}`)}
+						>
 							View
 						</button>
 

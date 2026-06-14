@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import PostService from "../../services/PostService";
-import { createPostfail, createPostStart, createPostSucced, getPostSucced } from '../../slices/postSlice';
+import { clearPostError, createPostfail, createPostStart, createPostSucced, getPostSucced } from '../../slices/postSlice';
 import Input from "../../ui/Input";
 import TextArea from "../../ui/TextArea";
 import Modal from "../Modal";
@@ -59,6 +59,9 @@ function CreatePost() {
 		}
 	}
 
+	useEffect(() => {
+		dispatch(clearPostError())
+	}, [])
 
 	return (
 		<Modal
