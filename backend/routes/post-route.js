@@ -13,7 +13,7 @@ const router = express.Router()
 router.get("/get", PostController.getAllPosts)
 router.post("/create", uploadMiddleware, postValidator, validate, authMiddlewares, activationMiddleware, PostController.createPost)
 router.delete("/delete/:id", authMiddlewares, authorDeleteMiddleware, PostController.deletePost)
-router.put("/edit/:id", postValidator, validate, authMiddlewares, authorEditMiddleware, PostController.editPost)
+router.put("/edit/:id", uploadMiddleware, postValidator ,validate, authMiddlewares, authorEditMiddleware, PostController.editPost)
 router.get("/get-by-id/:id", PostController.getPostById)
 router.delete("/clear", PostController.clearAll)
 

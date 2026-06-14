@@ -2,10 +2,9 @@ const BaseError = require("../errors/base-error")
 const postModel = require("../models/post-model")
 
 module.exports = async function (req, res, next) {
-	try {
-
-		const postId = req.params.id
-
+	try {	
+		const postId = req.params.id		
+	
 		if (!postId) {
 			return next(
 				BaseError.BadRequest("Post id is required")
@@ -13,7 +12,7 @@ module.exports = async function (req, res, next) {
 		}
 
 		const post = await postModel.findById(postId)
-
+		
 		if (!post) {
 			return next(
 				BaseError.BadRequest("Post not found")
@@ -30,6 +29,7 @@ module.exports = async function (req, res, next) {
 			)
 		}
 		
+		// 6a1ec37c653f57b519cad522
 		next()
 
 	} catch (error) {

@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 
 function PostCard({ post, deletePost }) {
+	console.log(post.picture);
+
 	const navigate = useNavigate()
 	return (
 		<div className="col-md-6 col-lg-4" >
@@ -24,15 +26,13 @@ function PostCard({ post, deletePost }) {
 						borderBottom: "1px solid #1e293b"
 					}}
 				>
-					<img
-						src={post.picture}
-						alt={post.title}
-						style={{
-							width: "100%",
-							height: "100%",
-							objectFit: "cover"
-						}}
-					/>
+					<div className="image-container">
+						<img
+							src={`http://localhost:8080/${post.picture}`}
+							className="responsive-image"
+							alt={post.title}
+						/>
+					</div>
 				</div>
 
 				<div className="card-body d-flex flex-column">

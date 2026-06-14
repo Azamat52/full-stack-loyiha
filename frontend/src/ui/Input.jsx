@@ -19,10 +19,10 @@ function Input({
     <div className="floating-input-wrapper">
 
       <input
-        type={label === "Password" && (hide ? "password" : "text")}
+        type={label === "Password" ? (hide ? "password" : "text") : type}
         id={id}
         value={value}
-        placeholder=" "
+        placeholder=''
         className="floating-input"
         onChange={(e) => setState(type === "file" ? e.target.files[0] : e.target.value)}
         disabled={disabled}
@@ -43,9 +43,9 @@ function Input({
           }}
         >
           {hide ? (
-            <i class="fa-regular fa-eye text-white"></i>
+            <i className="fa-regular fa-eye text-white"></i>
           ): (
-            <i class="fa-solid fa-eye-slash text-white"></i>
+            <i className="fa-solid fa-eye-slash text-white"></i>
           )}
         </div>
       )}

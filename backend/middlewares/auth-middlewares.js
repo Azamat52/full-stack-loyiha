@@ -5,16 +5,19 @@ const tokenService = require('../services/token-service')
 module.exports = async function (req, res, next) {
 	try {
 		const auth = req.headers.authorization
+		
 		if (!auth) {
 			return next(BaseError.UnAutharized())
 		}
 
 		const accessToken = auth.split(" ")[1]
+		
 		if (!accessToken) {
 			return next(BaseError.UnAutharized())
 		}
 
 		const payload = tokenService.validateAccessToken(accessToken)
+		
 		if (!payload) {
 			return next(BaseError.UnAutharized())
 		}

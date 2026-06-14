@@ -11,51 +11,54 @@ import ValidationErrors from '../ValidationErrors';
 import { useOpenModal } from '../../hooks/useOpenModal';
 
 function EditPost() {
-	const [title, setTitle] = useState("")
-	const [description, setDescription] = useState("")
-	const [body, setBody] = useState("")
-	const [picture, setPicture] = useState(null)
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
+	const [body, setBody] = useState("");
+	const [picture, setPicture] = useState(null);
 
-	const { isLoading } = useSelector((state) => state.post)
-	const { onClose } = useOpenModal()
- 	const dispatch = useDispatch()
-	const navigate = useNavigate()
-	const { id } = useParams()
+	const { isLoading } = useSelector((state) => state.post);
+	const { onClose } = useOpenModal();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const { id } = useParams();
 
 	const resetForm = () => {
-		setTitle("")
-		setDescription("")
-		setBody("")
-		setPicture(null)
-	}
+		setTitle("");
+		setDescription("");
+		setBody("");
+		setPicture(null);
+	};
 
 	const onEditSubmit = async (e) => {
-		e.preventDefault()
-		dispatch(editPostStart())
+		e.preventDefault();
+		dispatch(editPostStart());
 
-		const updatedPost = {title, description, body}
+		const formData = new FormData();
+		formData.append("title", title);
+		formData.append("description", description);
+		formData.append("body", body);
+		formData.append("picture", picture);
 
 		try {
-			await PostService.editById(updatedPost, id)
-			dispatch(editPostSucced())
-			const res = await PostService.getPosts()
-			dispatch(getPostSucced(res))
-			onClose()
+			await PostService.editById(id, formData);
+			dispatch(editPostSucced());
+			const res = await PostService.getPosts();
+			dispatch(getPostSucced(res));
+			onClose();
 			setTimeout(() => {
-				navigate(-1)
-			}, 200)
-			resetForm()
+				navigate("/");
+			}, 200);
+			resetForm();
 			toast.success("Post successfully edited", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
-			})
+			});
 		} catch (error) {
-			dispatch(editPostfail(error?.response?.data))
+			dispatch(editPostfail(error?.response?.data));
 			toast.error("Error editing post", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
-			})
+			});
 		}
-	}
-
+	};
 
 	return (
 		<Modal
@@ -80,6 +83,13 @@ function EditPost() {
 					disabled={isLoading}
 				/>
 
+				<Input
+					label="Picture"
+					type="file"
+					setState={setPicture}
+					disabled={isLoading}
+				/>
+
 				<TextArea
 					label="Body"
 					value={body}
@@ -88,7 +98,6 @@ function EditPost() {
 				/>
 
 				<div className="d-flex gap-3 mt-3">
-
 					<button
 						type="submit"
 						className="btn btn-light w-100"
@@ -104,12 +113,10 @@ function EditPost() {
 					>
 						Reset
 					</button>
-
 				</div>
-
 			</form>
 		</Modal>
-	)
+	);
 }
 
-export default EditPost
+export default EditPost;

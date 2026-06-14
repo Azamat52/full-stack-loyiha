@@ -45,7 +45,7 @@ function CreatePost() {
 			dispatch(getPostSucced(res))
 			onClose()
 			setTimeout(() => {
-				navigate(-1)
+				navigate("/")
 			}, 200)
 			resetForm()
 			toast.success("Post successfully created", {

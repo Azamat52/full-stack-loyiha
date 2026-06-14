@@ -23,7 +23,7 @@ function Home() {
 	const getAllPosts = async () => {
 		dispatch(getPostStart())
 		try {
-			const res = await PostService.getPosts()
+			const res = await PostService.getPosts()			
 			dispatch(getPostSucced(res))
 			toast.success("Posts succesfully loaded", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
@@ -39,7 +39,7 @@ function Home() {
 	useEffect(() => {
 		getAllPosts()
 	}, [])
-	
+
 	// DELETE POSTS
 	const deletePost = async (id) => {
 		dispatch(deletePostStart())
@@ -62,7 +62,13 @@ function Home() {
 	useEffect(() => {
 		if (!loggedIn) {
 			navigate("/auth")
+			toast.error("User is not authorized", {
+				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+			})
 		}
+		toast.success("User is already authorized", {
+			style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+		})
 	}, [loggedIn])
 
 	// PAGINATION LOGIK
