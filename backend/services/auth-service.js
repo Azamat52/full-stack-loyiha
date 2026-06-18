@@ -16,7 +16,7 @@ class AuthService {
         if (existUserUsername) {
             throw BaseError.BadRequest(`Username(${username}) is already taken`);
         }
-        // hasing password
+        // hashing password
         const hashedPassword = await bcrypt.hash(password, 10)
         const newUser = { email, password: hashedPassword, username }
         const user = await UserModel.create(newUser)

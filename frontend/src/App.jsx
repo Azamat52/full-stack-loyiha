@@ -41,7 +41,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Toaster />
+      <Toaster reverseOrder={false}/>
       <Routes>
         <Route path='/auth' element={<Auth />}>
           <Route index element={<Navigate to="/auth/login" />}></Route>

@@ -17,7 +17,10 @@ function Auth() {
 	return (
 		<div
 			className='w-100 vh-100 py-5'
-			style={{ background: '#020617' }}
+			style={{ 
+				background: '#020617',
+				margin: "80px 0 0 0"
+			}}
 		>
 			{isRegistar && <LoadingOverlay />}
 			{isLoading && <LoadingOverlay />}

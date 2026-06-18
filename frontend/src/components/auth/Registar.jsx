@@ -25,10 +25,10 @@ function Registar() {
 			dispatch(succedRegistar())
 			navigate("/auth/login")
 			Reset()
-			toast.success("Registered successfully", { style: { color: "#fff", background: "#030921" } })
+			toast.success("Registered successfully", { style: { color: "#fff", background: "#151f34" } })
 		} catch (error) {
-			dispatch(failRegistar(error.response?.data))
-			toast.error("Error registering", { style: { color: "#fff", background: "#030921" } })
+			dispatch(failRegistar(error?.response?.data))
+			toast.error("Error registering", { style: { color: "#fff", background: "#151f34" } })
 		}
 	}
 

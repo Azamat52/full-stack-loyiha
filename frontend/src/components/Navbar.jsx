@@ -21,7 +21,15 @@ function Navbar() {
   }
 
   return (
-    <div style={{ backgroundColor: "#0f172a" }}>
+    <div style={{ 
+      backgroundColor: "#0f172a",
+      position: "fixed",
+      width: "100%",
+      top: 0,
+      left: 0,
+      zIndex: 10
+    }}
+    >
       <nav
         className="navbar container navbar-expand-lg py-3"
       >

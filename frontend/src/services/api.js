@@ -17,31 +17,27 @@ api.interceptors.request.use(config => {
 	return config
 })
 
-api.interceptors.response.use((res) => res,
+
+api.interceptors.response.use((res) => {
+	return res
+	console.log(res);
+},
 	async (err) => {
-		// Expired Token
-		if (err.response?.status === 401 && !err.config._retry) {
-			err.config._retry = true
-
+		if (err.status === 401) {
 			try {
-				const res = await axios.get("http://localhost:8080/api/auth/refresh", { withCredentials: true })
-
-				const newAccessToken = res.data.accessToken
-				setItem("token", newAccessToken)
-
-				err.config.headers.Authorization = `Bearer ${newAccessToken}`
-
+				const { data } = await axios.get("http://localhost:8080/api/auth/refresh", { withCredentials: true })
+				
+				const newToken = data.accessToken
+				err.config.headers.Authorization = newToken ? `Bearer ${newToken}` : ""
 				return api(err.config)
 			} catch (error) {
-				removeItem("token")
-				window.location.href = "/auth"
-
 				return Promise.reject(error)
+				console.log("catch ishladi");
 			}
 		}
-		return Promise.reject(error)
+		return Promise.reject(err)
+		console.log("vashem ishlamadi");
 	}
 )
-
 
 export default api

@@ -26,13 +26,13 @@ function Home() {
 			const res = await PostService.getPosts()
 			dispatch(getPostSucced(res))
 			toast.success("Posts succesfully loaded", {
-				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+				style: { color: "#fff", background: "#151f34", zIndex: 10002, }
 			})
 
 		} catch (error) {
 			dispatch(getPostfail(error?.response?.data))
 			toast.error("Error getting posts", {
-				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+				style: { color: "#fff", background: "#151f34", zIndex: 10002, }
 			})
 		}
 	}
@@ -48,27 +48,28 @@ function Home() {
 			dispatch(deletePostSucced())
 			getAllPosts()
 			toast.success("Post successfully deleted", {
-				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+				style: { color: "#fff", background: "#151f34", zIndex: 10002, }
 			})
 
 		} catch (error) {
 			dispatch(deletePostfail(error?.response?.data))
 			toast.error(error?.response?.data?.message, {
-				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
+				style: { color: "#fff", background: "#151f34", zIndex: 10002, }
 			})
 		}
 	}
 	// ------
 	useEffect(() => {
-		if (!loggedIn) {
+		if (loggedIn) {
+			toast.success("Authorized", {
+				style: { color: "#fff", background: "#151f34", zIndex: 10002, }
+			})
+		} else {
 			navigate("/auth")
-			toast.error("User is not authorized", {
+			toast.error("Unauthorized", {
 				style: { color: "#fff", background: "#151f34", zIndex: 10002 }
 			})
 		}
-		toast.success("User is already authorized", {
-			style: { color: "#fff", background: "#151f34", zIndex: 10002 }
-		})
 	}, [loggedIn])
 
 	// PAGINATION LOGIK
@@ -103,7 +104,9 @@ function Home() {
 	}
 
 	return (
-		<div>
+		<div style={{
+			padding: "120px 0"
+		}}>
 			{isLoading && <LoadingOverlay />}
 
 			<div className='container py-4'>

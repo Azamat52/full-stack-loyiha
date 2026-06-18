@@ -24,10 +24,10 @@ function Login() {
 			dispatch(succedLogin(res))
 			navigate("/")
 			Reset()
-			toast.success("Login successful", { style: { color: "#fff", background: "#020617" } })
+			toast.success("Login successful", { style: { color: "#fff", background: "#151f34" } })
 		} catch (error) {
-			dispatch(failLogin(error.response?.data))
-			toast.error("Error logging in", { style: { color: "#fff", background: "#030921" } })
+			dispatch(failLogin(error?.response?.data))
+			toast.error("Error logging in", { style: { color: "#fff", background: "#151f34" } })
 		}
 	}
 	const Reset = () => { setEmail(""); setPassword("") }
